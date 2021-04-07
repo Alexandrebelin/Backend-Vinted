@@ -3,4 +3,8 @@ node_modules
 .DS_Store
 package-lock.json
 test.js
+__tests__/
+img/
+.jpg
+jest.config.js
 
