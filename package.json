@@ -19,6 +19,7 @@
     "express": "^4.17.1",
     "express-formidable": "^1.2.0",
     "express-mongo-sanitize": "^2.0.2",
+    "express-rate-limit": "^5.2.6",
     "helmet": "^4.4.1",
     "mongoose": "^5.11.12",
     "uid2": "0.0.3"

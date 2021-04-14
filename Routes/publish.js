@@ -13,6 +13,7 @@ const isAuthenticated = require("../Middleware/isAuthenticated");
 // PUBLISHING AN OFFER
 router.post("/offer/publish", isAuthenticated, async (req, res) => {
   try {
+    console.log(req.fields);
     const {
       title,
       description,
@@ -23,40 +24,70 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
       city,
       color,
     } = req.fields;
+    if (
+      title &&
+      description &&
+      price &&
+      size &&
+      brand &&
+      condition &&
+      city &&
+      color
+    ) {
+      if (description.length <= 500) {
+        if (title.length <= 50) {
+          if (price <= 50000) {
+            const newOffer = new Offer({
+              name: title,
+              description: description,
+              price: price,
+              details: [
+                {
+                  brand: brand,
+                },
+                {
+                  size: size,
+                },
+                {
+                  condition: condition,
+                },
+                {
+                  color: color,
+                },
+                {
+                  location: city,
+                },
+              ],
 
-    const newOffer = new Offer({
-      name: title,
-      description: description,
-      price: price,
-      details: [
-        {
-          brand: brand,
-        },
-        {
-          size: size,
-        },
-        {
-          condition: condition,
-        },
-        {
-          color: color,
-        },
-        {
-          location: city,
-        },
-      ],
+              owner: req.user,
+            });
 
-      owner: req.user,
-    });
+            // Upload multy pictures
+            const result = await cloudinary.uploader.upload(
+              req.files.picture.path,
+              {
+                folder: `/Vinted/offers/${newOffer._id}`,
+                allowed_formats: ["png, jpg"],
+              }
+            );
 
-    const result = await cloudinary.uploader.upload(req.files.picture.path, {
-      folder: `/Vinted/offers/${newOffer._id}`,
-      allowed_formats: ["png, jpg"],
-    });
-
-    newOffer.image = result;
-    await newOffer.save();
-    res.status(200).json(newOffer);
+            newOffer.image = result;
+            await newOffer.save();
+            res.status(200).json(newOffer);
+          } else {
+            res
+              .status(400)
+              .json({ error: "The maximum price is setle at 50 000 euros" });
+          }
+        } else {
+          res.status(400).json({ error: "Title : maximum 50 characters" });
+        }
+      } else {
+        res.status(400).json({ error: "Description : maximum 500 characters" });
+      }
+    } else {
+      res.status(400).json({ error: "Missing parameters" });
+    }
   } catch (error) {
     res.status(400).json({ error: "hello" });
   }

@@ -6,9 +6,16 @@ const cloudinary = require("cloudinary").v2;
 const cors = require("cors");
 require("dotenv").config();
 
+const rateLimit = require("express-rate-limit");
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+});
+
 const app = express();
 app.use(formidable());
 app.use(cors());
+app.use(limiter);
 
 app.disable("x-powered-by");
 app.use(
