@@ -15,7 +15,7 @@ const Offer = require("../Models/Offer");
 router.post("/user/signup", async (req, res) => {
   try {
     const user = await User.findOne({ email: req.fields.email });
-
+    console.log(req);
     let securePassword = req.fields.password;
     let strongPassword = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/.test(
       securePassword
@@ -41,7 +41,7 @@ router.post("/user/signup", async (req, res) => {
             salt: salt,
           });
 
-          if (req.fields.avatar) {
+          if (req.files.avatar) {
             let pictureToUpload = req.files.avatar.path;
             const result = await cloudinary.uploader.upload(pictureToUpload, {
               folder: `/Vinted/users/${newUser._id}`,

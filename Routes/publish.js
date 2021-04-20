@@ -98,20 +98,20 @@ router.get("/offers", async (req, res) => {
     let filters = {};
 
     if (req.query.title) {
-      filters.product_name = new RegExp(req.query.title, "i");
+      filters.name = new RegExp(req.query.title, "i");
     }
 
     if (req.query.priceMin) {
-      filters.product_price = {
+      filters.price = {
         $gte: Number(req.query.priceMin),
       };
     }
 
     if (req.query.priceMax) {
-      if (filters.product_price) {
-        filters.product_price.$lte = Number(req.query.priceMax);
+      if (filters.price) {
+        filters.price.$lte = Number(req.query.priceMax);
       } else {
-        filters.product_price = {
+        filters.price = {
           $lte: Number(req.query.priceMax),
         };
       }
@@ -120,10 +120,10 @@ router.get("/offers", async (req, res) => {
     let sort = {};
 
     if (req.query.sort === "price-desc") {
-      sort.product_price = -1;
+      sort.price = -1;
     }
     if (req.query.sort === "price-asc") {
-      sort.product_price = 1;
+      sort.price = 1;
     }
 
     let page;
@@ -138,10 +138,11 @@ router.get("/offers", async (req, res) => {
     const count = await Offer.countDocuments(filters);
 
     const offers = await Offer.find(filters)
+      .populate({ path: "owner", select: "account" })
       .sort(sort)
       .skip((page - 1) * limit)
-      .limit(limit)
-      .select("name price");
+      .limit(limit);
+
     res.status(200).json({
       count: count,
       offers: offers,
@@ -151,6 +152,19 @@ router.get("/offers", async (req, res) => {
   }
 });
 
+// Route qui permmet de récupérer les informations d'une offre en fonction de son id
+router.get("/offer/:id", async (req, res) => {
+  try {
+    const offer = await Offer.findById(req.params.id).populate({
+      path: "owner",
+      select: "account.username account.phone account.avatar",
+    });
+    res.json(offer);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ message: error.message });
+  }
+});
 // UPDATE AN OFFER
 router.put("/offer/update/:id", isAuthenticated, async (req, res) => {
   const id = req.params.id.replace(":", "");
