@@ -26,13 +26,19 @@ app.use(
 
 const userRoutes = require("./Routes/user");
 const publishRoutes = require("./Routes/publish");
+const paymentRoutes = require("./Routes/payment");
 app.use(userRoutes);
 app.use(publishRoutes);
+app.use(paymentRoutes);
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_NAME,
   api_key: process.env.CLOUDINARY_API_KEY,
   api_secret: process.env.CLOUDINARY_API_SECRET,
+});
+
+app.get("/", (req, res) => {
+  res.json("Welcome on Vinted API");
 });
 
 app.all("*", (req, res) => {
