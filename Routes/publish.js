@@ -95,7 +95,6 @@ router.post("/offer/publish", isAuthenticated, async (req, res) => {
 
 router.get("/offers", async (req, res) => {
   try {
-    console.log(req.query.title);
     let filters = {};
 
     if (req.query.title) {
