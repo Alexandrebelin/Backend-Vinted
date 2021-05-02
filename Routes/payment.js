@@ -6,8 +6,9 @@ const stripe = createStripe(process.env.STRIPE_API_SECRET);
 
 const isAuthenticated = require("../Middleware/isAuthenticated");
 
-router.post("/payment", isAuthenticated, async (req, res) => {
+router.post("/payment", async (req, res) => {
   try {
+    console.log(req.fields);
     const stripeToken = req.fields.stripeToken;
     const response = await stripe.charges.create({
       amount: req.fields.amount * 100,
