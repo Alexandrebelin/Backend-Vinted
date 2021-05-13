@@ -13,17 +13,8 @@ const isAuthenticated = require("../Middleware/isAuthenticated");
 // PUBLISHING AN OFFER
 router.post("/offer/publish", isAuthenticated, async (req, res) => {
   try {
-    console.log(req.fields);
-    const {
-      title,
-      description,
-      price,
-      size,
-      brand,
-      condition,
-      city,
-      color,
-    } = req.fields;
+    const { title, description, price, size, brand, condition, city, color } =
+      req.fields;
     if (
       title &&
       description &&

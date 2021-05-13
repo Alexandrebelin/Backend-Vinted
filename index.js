@@ -1,7 +1,7 @@
 const app = require("./app");
 const mongoose = require("mongoose");
 
-mongoose.connect("mongodb://localhost/Vinted", {
+mongoose.connect(process.env.MONGODB_URI, {
   useUnifiedTopology: true,
   useNewUrlParser: true,
   useCreateIndex: true,

@@ -17,9 +17,10 @@ router.post("/user/signup", async (req, res) => {
     const user = await User.findOne({ email: req.fields.email });
     console.log(req);
     let securePassword = req.fields.password;
-    let strongPassword = /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*]{8,}$/.test(
-      securePassword
-    );
+    let strongPassword =
+      /^(?=.*[\d])(?=.*[A-Z])(?=.*[a-z])(?=.*[!@#$%^&*])[\w!@#$%^&*/]{8,}$/.test(
+        securePassword
+      );
 
     if (!user) {
       if (req.fields.email && req.fields.username && req.fields.password) {
