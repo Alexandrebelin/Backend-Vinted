@@ -50,7 +50,7 @@ describe("publish.js", () => {
       .post("/user/login")
       .send({ email: "belin.alexandre@gmail.com", password: "Thomas77!!" });
     //Create an offer
-    console.log(response2.body);
+
     const response3 = await request(app)
       .post("/offer/publish")
       .set(
@@ -71,105 +71,104 @@ describe("publish.js", () => {
       .attach("picture", "img/imgTest.jpg")
       .attach("picture", "img/imgTest2.jpg");
 
-    console.log(response3.body);
     expect(response3.body._id).toBeDefined();
   });
 
-  // it("update an offer", async () => {
-  //   // Login
-  //   const response2 = await request(app)
-  //     .post("/user/login")
-  //     .send({ email: "belin.alexandre@gmail.com", password: "Thomas77!!" });
+  it("update an offer", async () => {
+    // Login
+    const response2 = await request(app)
+      .post("/user/login")
+      .send({ email: "belin.alexandre@gmail.com", password: "Thomas77!!" });
 
-  //   //Create an offer
+    //Create an offer
 
-  //   const response3 = await request(app)
-  //     .post("/offer/publish")
-  //     .set(
-  //       {
-  //         Authorization: "Bearer " + response2.body.token,
-  //       },
-  //       "content-type",
-  //       "multipart/form-data"
-  //     )
-  //     .field("title", "addidas")
-  //     .field("description", "b")
-  //     .field("price", 80)
-  //     .field("size", "42")
-  //     .field("brand", "addidas")
-  //     .field("condition", "new")
-  //     .field("city", "paris")
-  //     .field("color", "white")
-  //     .attach("picture", "img/imgTest.jpg");
+    const response3 = await request(app)
+      .post("/offer/publish")
+      .set(
+        {
+          Authorization: "Bearer " + response2.body.token,
+        },
+        "content-type",
+        "multipart/form-data"
+      )
+      .field("title", "addidas")
+      .field("description", "b")
+      .field("price", 80)
+      .field("size", "42")
+      .field("brand", "addidas")
+      .field("condition", "new")
+      .field("city", "paris")
+      .field("color", "white")
+      .attach("picture", "img/imgTest.jpg");
 
-  //   // Modify the offer
-  //   const id = response3.body._id;
+    // Modify the offer
+    const id = response3.body._id;
 
-  //   const response4 = await request(app)
-  //     .put(`/offer/update/:${id}`)
-  //     .set(
-  //       {
-  //         Authorization: "Bearer " + response2.body.token,
-  //       },
-  //       "content-type",
-  //       "multipart/form-data"
-  //     )
-  //     .field({ title: "hello" })
-  //     .field({ description: "hello" })
-  //     .field({ price: 20 })
-  //     .field({ brand: "nikeid" })
-  //     .field({ size: "40" })
-  //     .field({ condition: "old" })
-  //     .field({ color: "red" })
-  //     .field({ location: "nice" })
-  //     .attach("picture", "img/imgTest2.jpg");
+    const response4 = await request(app)
+      .put(`/offer/update/:${id}`)
+      .set(
+        {
+          Authorization: "Bearer " + response2.body.token,
+        },
+        "content-type",
+        "multipart/form-data"
+      )
+      .field({ title: "hello" })
+      .field({ description: "hello" })
+      .field({ price: 20 })
+      .field({ brand: "nikeid" })
+      .field({ size: "40" })
+      .field({ condition: "old" })
+      .field({ color: "red" })
+      .field({ location: "nice" })
+      .attach("picture", "img/imgTest2.jpg");
 
-  //   expect(response4.body.name).toEqual("hello");
-  //   expect(response4.body.description).toEqual("hello");
-  //   expect(response4.body.price).toEqual(20);
-  //   expect(response4.body.details[0].brand).toEqual("nikeid");
-  //   expect(response4.body.details[1].size).toEqual("40");
-  //   expect(response4.body.details[2].condition).toEqual("old");
-  //   expect(response4.body.details[3].color).toEqual("red");
-  //   expect(response4.body.details[4].location).toEqual("nice");
-  // });
+    expect(response4.body.name).toEqual("hello");
+    expect(response4.body.description).toEqual("hello");
+    expect(response4.body.price).toEqual(20);
+    expect(response4.body.details[0].brand).toEqual("nikeid");
+    expect(response4.body.details[1].size).toEqual("40");
+    expect(response4.body.details[2].condition).toEqual("old");
+    expect(response4.body.details[3].color).toEqual("red");
+    expect(response4.body.details[4].location).toEqual("nice");
+  });
 
-  // it("delete an offer", async () => {
-  //   // Login
-  //   const response2 = await request(app)
-  //     .post("/user/login")
-  //     .send({ email: "belin.alexandre@gmail.com", password: "Thomas77!!" });
+  it("delete an offer", async () => {
+    // Login
+    const response2 = await request(app)
+      .post("/user/login")
+      .send({ email: "belin.alexandre@gmail.com", password: "Thomas77!!" });
 
-  //   //Create an offer
+    //Create an offer
 
-  //   const response3 = await request(app)
-  //     .post("/offer/publish")
-  //     .set(
-  //       {
-  //         Authorization: "Bearer " + response2.body.token,
-  //       },
-  //       "content-type",
-  //       "multipart/form-data"
-  //     )
-  //     .field("title", "addidas")
-  //     .field("description", "b")
-  //     .field("price", 80)
-  //     .field("size", "42")
-  //     .field("brand", "addidas")
-  //     .field("condition", "new")
-  //     .field("city", "paris")
-  //     .field("color", "white")
-  //     .attach("picture", "img/imgTest.jpg");
-  //   console.log(response3.body);
-  //   // Modify the offer
-  //   const id = response3.body._id;
+    const response3 = await request(app)
+      .post("/offer/publish")
+      .set(
+        {
+          Authorization: "Bearer " + response2.body.token,
+        },
+        "content-type",
+        "multipart/form-data"
+      )
+      .field("title", "addidas")
+      .field("description", "b")
+      .field("price", 80)
+      .field("size", "42")
+      .field("brand", "addidas")
+      .field("condition", "new")
+      .field("city", "paris")
+      .field("color", "white")
+      .attach("picture", "img/imgTest.jpg");
+    console.log(response3.body._id);
 
-  //   const response4 = await request(app)
-  //     .delete(`/offer/delete/:${id}`)
-  //     .set({
-  //       Authorization: "Bearer " + response2.body.token,
-  //     });
+    const id = response3.body._id;
+    // Delete the offer
+    const response4 = await request(app)
+      .delete(`/offer/delete/:${id}`)
+      .set({
+        Authorization: "Bearer " + response2.body.token,
+      });
 
-  //   expect(response4.body).toEqual("Offer deleted succesfully !");
-  // });
+    expect(response4.body).toEqual("Offer deleted succesfully !");
+  });
 });

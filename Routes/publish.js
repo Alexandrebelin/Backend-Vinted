@@ -225,6 +225,7 @@ router.put("/offer/update/:id", isAuthenticated, async (req, res) => {
 router.delete("/offer/delete/:id", isAuthenticated, async (req, res) => {
   try {
     const id = req.params.id.replace(":", "");
+
     let offerToDelete = await Offer.findById(id);
     if (offerToDelete) {
       //Je supprime ce qui il y a dans le dossier
